@@ -14,10 +14,10 @@ type Finder interface {
 
 type Page struct {
 	Page Finder
-	T    *testing.T
+	T    testing.TB
 }
 
-func New(t *testing.T, p *agouti.Page) *Page {
+func New(t testing.TB, p *agouti.Page) *Page {
 	return &Page{
 		Page: p,
 		T:    t,
