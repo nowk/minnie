@@ -32,6 +32,15 @@ func All(str string, f Finder) (*agouti.MultiSelection, error) {
 	return f.All(str), nil
 }
 
+func (p *Page) Agouti() *agouti.Page {
+	page, ok := p.Page.(*agouti.Page)
+	if !ok {
+		p.Fatal("invalid type: %T", p.Page)
+	}
+
+	return page
+}
+
 func (p *Page) check(err error) {
 	if err != nil {
 		p.Error(err)
@@ -39,12 +48,7 @@ func (p *Page) check(err error) {
 }
 
 func (p *Page) Visit(url string) {
-	page, ok := p.Page.(*agouti.Page)
-	if !ok {
-		p.Fatal("cannot call Visit(string) on %T: invalid type", p.Page)
-	}
-
-	p.check(page.Navigate(url))
+	p.check(p.Agouti().Navigate(url))
 }
 
 func (p *Page) find(s string, f Finder) *agouti.Selection {
